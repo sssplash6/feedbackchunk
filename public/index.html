@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freshman Academy — Website Redesign Feedback</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#0d1a30;
+    --navy-800:#182c4d;
+    --navy-700:#213862;
+    --gold-500:#c69b3c;
+    --gold-300:#e0c274;
+    --cream-50:#f7f3e8;
+    --cream-100:#f0ead9;
+    --ink-900:#181611;
+    --ink-600:#5b5644;
+    --line:#d9d0b8;
+    --red-600:#a4402c;
+    --green-700:#3f5d3a;
+    --shadow:0 1px 2px rgba(13,26,48,.06), 0 8px 24px rgba(13,26,48,.05);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 400px at 100% -10%, rgba(198,155,60,.10), transparent 60%),
+      var(--cream-50);
+    color:var(--ink-900);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:40px 20px 96px;}
+
+  /* Header */
+  .masthead{
+    border-bottom:3px solid var(--navy-950);
+    padding-bottom:20px;
+    margin-bottom:28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .masthead .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold-500);
+    margin:0 0 8px;
+  }
+  .masthead h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:34px;
+    margin:0;
+    line-height:1.08;
+    color:var(--navy-950);
+    letter-spacing:-.01em;
+  }
+  .masthead p.sub{
+    margin:10px 0 0;
+    color:var(--ink-600);
+    font-size:14.5px;
+    max-width:48ch;
+    line-height:1.5;
+  }
+  .ticket-count{
+    text-align:right;
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--navy-800);
+    line-height:1;
+  }
+  .ticket-count .num{font-size:32px;font-weight:600;display:block;}
+  .ticket-count .label{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-600);margin-top:4px;display:block;}
+
+  /* Tabs */
+  .tabs{display:flex;gap:3px;margin-bottom:0;}
+  .tab-btn{
+    flex:1;
+    padding:13px 14px;
+    background:var(--cream-100);
+    border:1px solid var(--line);
+    border-bottom:none;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--ink-600);
+    cursor:pointer;
+    transition:.15s;
+    border-radius:6px 6px 0 0;
+  }
+  .tab-btn.active{background:var(--navy-950);color:var(--cream-50);border-color:var(--navy-950);}
+  .tab-btn:not(.active):hover{background:#e9e1c8;color:var(--navy-800);}
+  .panel{border:1px solid var(--line);background:#fff;padding:32px;border-radius:0 0 8px 8px;box-shadow:var(--shadow);}
+  @media (max-width:560px){.panel{padding:22px;}}
+
+  /* Form */
+  .field{margin-bottom:22px;}
+  .field label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--navy-800);
+    margin-bottom:8px;
+  }
+  .field label .req{color:var(--red-600);margin-left:2px;}
+  .field .hint{font-family:'IBM Plex Sans',sans-serif;text-transform:none;letter-spacing:0;color:var(--ink-600);font-size:12.5px;display:block;margin-top:4px;}
+  input[type=text], textarea, select{
+    width:100%;
+    border:1px solid var(--line);
+    background:var(--cream-50);
+    padding:11px 12px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:14.5px;
+    color:var(--ink-900);
+    border-radius:4px;
+    transition:border-color .15s, background .15s, box-shadow .15s;
+  }
+  input[type=text]:focus, textarea:focus, select:focus{
+    outline:none;
+    border-color:var(--gold-500);
+    box-shadow:0 0 0 3px rgba(198,155,60,.22);
+    background:#fff;
+  }
+  input.invalid, textarea.invalid{border-color:var(--red-600);box-shadow:0 0 0 3px rgba(164,64,44,.15);}
+  textarea{min-height:120px;resize:vertical;line-height:1.5;}
+  .char-count{float:right;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-600);letter-spacing:.03em;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media (max-width:560px){.row2{grid-template-columns:1fr;}}
+
+  .chip-group{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{
+    border:1px solid var(--line);
+    background:var(--cream-50);
+    padding:8px 14px;
+    font-size:13px;
+    border-radius:20px;
+    cursor:pointer;
+    user-select:none;
+    transition:.12s;
+  }
+  .chip:hover{border-color:var(--gold-500);}
+  .chip input{position:absolute;opacity:0;width:0;height:0;}
+  .chip:focus-within{box-shadow:0 0 0 3px rgba(198,155,60,.22);}
+  .chip.selected{background:var(--navy-950);color:var(--cream-50);border-color:var(--navy-950);}
+
+  .submit-row{display:flex;align-items:center;gap:14px;margin-top:28px;border-top:1px dashed var(--line);padding-top:24px;flex-wrap:wrap;}
+  button.primary{
+    background:var(--navy-950);
+    color:var(--cream-50);
+    border:none;
+    padding:13px 26px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border-radius:4px;
+    transition:.15s;
+  }
+  button.primary:hover:not(:disabled){background:var(--navy-800);transform:translateY(-1px);}
+  button.primary:disabled{opacity:.5;cursor:default;}
+  button.secondary{
+    background:transparent;
+    border:1px solid var(--navy-950);
+    color:var(--navy-950);
+    padding:10px 18px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border-radius:4px;
+    transition:.15s;
+  }
+  button.secondary:hover:not(:disabled){background:var(--navy-950);color:var(--cream-50);}
+  button.secondary:disabled{opacity:.4;cursor:default;}
+  .status-msg{font-size:13px;color:var(--green-700);min-height:1em;}
+  .status-msg.err{color:var(--red-600);}
+
+  /* Dashboard */
+  .dash-toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;}
+  select.filter{
+    border:1px solid var(--line);
+    background:var(--cream-50);
+    padding:8px 10px;
+    font-size:12.5px;
+    font-family:'IBM Plex Mono', monospace;
+    border-radius:4px;
+    cursor:pointer;
+  }
+  .dash-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .stat-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+  .stat{
+    flex:1;min-width:120px;
+    border:1px solid var(--line);
+    background:var(--cream-50);
+    border-radius:6px;
+    padding:12px 14px;
+  }
+  .stat .s-num{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;color:var(--navy-950);}
+  .stat .s-label{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-600);margin-top:2px;}
+  .stat.high .s-num{color:var(--red-600);}
+  #entriesList{display:flex;flex-direction:column;gap:22px;}
+  .entry{
+    border:1px solid var(--line);
+    border-left:4px solid var(--gold-500);
+    padding:20px 22px;
+    background:#fff;
+    border-radius:0 6px 6px 0;
+    transition:box-shadow .15s;
+  }
+  .entry:hover{box-shadow:var(--shadow);}
+  .entry.priority-high{border-left-color:var(--red-600);}
+  .entry.priority-low{border-left-color:#9aa38c;}
+  .entry-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .entry-meta{font-family:'IBM Plex Mono', monospace;font-size:11px;color:var(--ink-600);letter-spacing:.03em;}
+  .entry-name{font-weight:600;color:var(--navy-950);}
+  .tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border:1px solid var(--navy-800);
+    color:var(--navy-800);
+    border-radius:10px;
+    margin-left:6px;
+  }
+  .tag.high{border-color:var(--red-600);color:var(--red-600);}
+  .entry-body{font-size:14px;line-height:1.55;color:var(--ink-900);white-space:pre-wrap;}
+  .entry-ref{font-size:12.5px;margin-top:8px;color:var(--ink-600);word-break:break-word;}
+  .entry-ref a{color:var(--navy-700);}
+  .empty-state{
+    text-align:center;
+    padding:56px 20px;
+    color:var(--ink-600);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    border:1px dashed var(--line);
+    border-radius:8px;
+  }
+  .loading{padding:44px;text-align:center;color:var(--ink-600);font-family:'IBM Plex Mono', monospace;font-size:12px;}
+  .toast{
+    position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);
+    background:var(--navy-950);color:var(--cream-50);
+    padding:12px 20px;border-radius:6px;font-size:13px;
+    font-family:'IBM Plex Mono', monospace;box-shadow:0 10px 30px rgba(13,26,48,.3);
+    opacity:0;pointer-events:none;transition:.25s;z-index:50;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .toast.err{background:var(--red-600);}
+  .footer{margin-top:26px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-600);letter-spacing:.04em;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div>
+      <p class="eyebrow">Freshman Academy · Website Redesign</p>
+      <h1>What should the new site do?</h1>
+      <p class="sub">One place for the whole team to log ideas, gripes, and must-haves before we brief the designer. Takes two minutes.</p>
+    </div>
+    <div class="ticket-count">
+      <span class="num" id="submissionCount">—</span>
+      <span class="label">Entries logged</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" id="tabSubmitBtn" onclick="switchTab('submit')">Submit feedback</button>
+    <button class="tab-btn" id="tabDashBtn" onclick="switchTab('dash')">Team dashboard</button>
+  </div>
+
+  <!-- SUBMIT PANEL -->
+  <div class="panel" id="submitPanel">
+    <div class="field">
+      <label for="fName">Your name <span class="req">*</span></label>
+      <input type="text" id="fName" maxlength="80" placeholder="e.g. Shakhzod" autocomplete="name">
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="fRole">Team / role</label>
+        <input type="text" id="fRole" maxlength="80" placeholder="e.g. Admissions, Marketing, Ops">
+      </div>
+      <div class="field">
+        <label for="fPage">Which part of the site?</label>
+        <select id="fPage">
+          <option>Home page</option>
+          <option>About us</option>
+          <option>Courses (Advanced English, Admissions Program, etc.)</option>
+          <option>Admissions programs</option>
+          <option>Research</option>
+          <option>Blog</option>
+          <option>Testimonials / Alumni</option>
+          <option>Contact / Consultations</option>
+          <option>New page (doesn't exist yet)</option>
+          <option>Whole site / navigation</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>What kind of feedback is this? <span class="req">*</span></label>
+      <div class="chip-group" id="typeChips">
+        <label class="chip"><input type="radio" name="ftype" value="New page idea"> New page idea</label>
+        <label class="chip"><input type="radio" name="ftype" value="Content / copy"> Content / copy</label>
+        <label class="chip"><input type="radio" name="ftype" value="Design / visual"> Design / visual</label>
+        <label class="chip"><input type="radio" name="ftype" value="Bug or broken thing"> Bug or broken thing</label>
+        <label class="chip"><input type="radio" name="ftype" value="Other"> Other</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Priority</label>
+      <div class="chip-group" id="prioChips">
+        <label class="chip"><input type="radio" name="fprio" value="High"> High — blocks launch</label>
+        <label class="chip"><input type="radio" name="fprio" value="Medium" checked> Medium</label>
+        <label class="chip"><input type="radio" name="fprio" value="Low"> Low — nice to have</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="fDetail">Tell us what you want to see <span class="req">*</span>
+        <span class="char-count"><span id="detailCount">0</span>/2000</span>
+      </label>
+      <textarea id="fDetail" maxlength="2000" placeholder="Be specific: what's wrong, what's missing, or what you'd add. e.g. 'The Alumni page needs a filter by country and university, right now it's just a wall of quotes.'"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="fRef">Reference link or example (optional)</label>
+      <input type="text" id="fRef" maxlength="500" placeholder="e.g. a competitor site, a page URL, a screenshot description">
+      <span class="hint">Paste a URL or just describe what you're referencing.</span>
+    </div>
+
+    <div class="submit-row">
+      <button class="primary" id="submitBtn" onclick="submitFeedback()">Log this feedback</button>
+      <span class="status-msg" id="statusMsg"></span>
+    </div>
+  </div>
+
+  <!-- DASHBOARD PANEL -->
+  <div class="panel" id="dashPanel" style="display:none;">
+    <div class="stat-strip" id="statStrip"></div>
+    <div class="dash-toolbar">
+      <div class="filters">
+        <select class="filter" id="filterPage" onchange="renderDashboard()"><option value="">All pages</option></select>
+        <select class="filter" id="filterType" onchange="renderDashboard()"><option value="">All types</option></select>
+        <select class="filter" id="filterPrio" onchange="renderDashboard()">
+          <option value="">All priorities</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+      <div class="dash-actions">
+        <button class="secondary" id="copyBtn" onclick="copyForDesigner()">Copy summary</button>
+        <button class="secondary" id="pdfBtn" onclick="downloadPdf()">⬇ Download PDF</button>
+      </div>
+    </div>
+    <div id="entriesList"><div class="loading">Loading entries…</div></div>
+  </div>
+
+  <div class="footer">Freshman Academy · Internal feedback · <span id="footNote">saved to the team server</span></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let allEntries = [];
+
+/* ---------- API layer (talks to the Node backend) ---------- */
+const API = {
+  async list(){
+    const r = await fetch('/api/entries', { headers:{'Accept':'application/json'} });
+    if(!r.ok) throw new Error('list failed');
+    return r.json();
+  },
+  async submit(entry){
+    const r = await fetch('/api/submit', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(entry)
+    });
+    if(!r.ok) throw new Error('submit failed');
+    return r.json();
+  }
+};
+
+/* ---------- tabs ---------- */
+function switchTab(tab){
+  document.getElementById('submitPanel').style.display = tab === 'submit' ? 'block' : 'none';
+  document.getElementById('dashPanel').style.display = tab === 'dash' ? 'block' : 'none';
+  document.getElementById('tabSubmitBtn').classList.toggle('active', tab === 'submit');
+  document.getElementById('tabDashBtn').classList.toggle('active', tab === 'dash');
+  if(tab === 'dash') loadEntries();
+}
+
+/* ---------- chip selection + char counter ---------- */
+document.querySelectorAll('.chip-group').forEach(group => {
+  group.addEventListener('change', () => {
+    group.querySelectorAll('.chip').forEach(c => {
+      c.classList.toggle('selected', c.querySelector('input').checked);
+    });
+  });
+});
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.chip-group .chip').forEach(c => {
+    if(c.querySelector('input').checked) c.classList.add('selected');
+  });
+  const detail = document.getElementById('fDetail');
+  const counter = document.getElementById('detailCount');
+  detail.addEventListener('input', () => { counter.textContent = detail.value.length; });
+  loadEntries();
+});
+
+/* ---------- load + render ---------- */
+async function loadEntries(){
+  const list = document.getElementById('entriesList');
+  if(list) list.innerHTML = '<div class="loading">Loading entries…</div>';
+  try{
+    allEntries = await API.list();
+  }catch(e){
+    allEntries = [];
+    if(list) list.innerHTML = '<div class="empty-state">Couldn\'t reach the server. Refresh to try again.</div>';
+  }
+  document.getElementById('submissionCount').textContent = allEntries.length;
+  populateFilters();
+  renderStats();
+  renderDashboard();
+}
+
+function populateFilters(){
+  const pages = [...new Set(allEntries.map(e => e.page).filter(Boolean))].sort();
+  const types = [...new Set(allEntries.map(e => e.type).filter(Boolean))].sort();
+  const pageSel = document.getElementById('filterPage');
+  const typeSel = document.getElementById('filterType');
+  const curPage = pageSel.value, curType = typeSel.value;
+  pageSel.innerHTML = '<option value="">All pages</option>' + pages.map(p => `<option ${p===curPage?'selected':''}>${escapeHtml(p)}</option>`).join('');
+  typeSel.innerHTML = '<option value="">All types</option>' + types.map(t => `<option ${t===curType?'selected':''}>${escapeHtml(t)}</option>`).join('');
+}
+
+function renderStats(){
+  const strip = document.getElementById('statStrip');
+  const high = allEntries.filter(e => (e.priority||'')==='High').length;
+  const pages = new Set(allEntries.map(e => e.page).filter(Boolean)).size;
+  strip.innerHTML = `
+    <div class="stat"><div class="s-num">${allEntries.length}</div><div class="s-label">Total entries</div></div>
+    <div class="stat high"><div class="s-num">${high}</div><div class="s-label">High priority</div></div>
+    <div class="stat"><div class="s-num">${pages}</div><div class="s-label">Pages covered</div></div>
+  `;
+}
+
+function renderDashboard(){
+  const list = document.getElementById('entriesList');
+  const fPage = document.getElementById('filterPage').value;
+  const fType = document.getElementById('filterType').value;
+  const fPrio = document.getElementById('filterPrio').value;
+
+  let filtered = allEntries.filter(e =>
+    (!fPage || e.page === fPage) &&
+    (!fType || e.type === fType) &&
+    (!fPrio || e.priority === fPrio)
+  );
+  filtered = filtered.slice().reverse(); // newest first
+
+  const hasAny = allEntries.length > 0;
+  document.getElementById('copyBtn').disabled = !hasAny;
+  document.getElementById('pdfBtn').disabled = !hasAny;
+
+  if(filtered.length === 0){
+    list.innerHTML = '<div class="empty-state">' + (hasAny ? 'No entries match these filters.' : 'No entries yet. Be the first to log feedback above.') + '</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(e => `
+    <div class="entry priority-${(e.priority||'medium').toLowerCase()}">
+      <div class="entry-top">
+        <div><span class="entry-name">${escapeHtml(e.name||'Anonymous')}</span>${e.role ? ' · ' + escapeHtml(e.role) : ''}
+          <span class="tag">${escapeHtml(e.type||'Other')}</span>
+          <span class="tag ${(e.priority||'')==='High'?'high':''}">${escapeHtml(e.priority||'Medium')}</span>
+        </div>
+        <div class="entry-meta">${escapeHtml(e.page||'')} · ${formatDate(e.timestamp)}</div>
+      </div>
+      <div class="entry-body">${escapeHtml(e.detail)}</div>
+      ${e.ref ? `<div class="entry-ref">Reference: ${linkify(e.ref)}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function formatDate(ts){
+  if(!ts) return '';
+  const d = new Date(ts);
+  return d.toLocaleDateString('en-GB', {day:'2-digit', month:'short'}) + ' ' + d.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+}
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str == null ? '' : String(str);
+  return div.innerHTML;
+}
+function linkify(str){
+  const safe = escapeHtml(str);
+  return safe.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+}
+
+/* ---------- submit ---------- */
+async function submitFeedback(){
+  const nameEl = document.getElementById('fName');
+  const detailEl = document.getElementById('fDetail');
+  const name = nameEl.value.trim();
+  const role = document.getElementById('fRole').value.trim();
+  const page = document.getElementById('fPage').value;
+  const typeEl = document.querySelector('input[name=ftype]:checked');
+  const prioEl = document.querySelector('input[name=fprio]:checked');
+  const detail = detailEl.value.trim();
+  const ref = document.getElementById('fRef').value.trim();
+  const statusMsg = document.getElementById('statusMsg');
+  const btn = document.getElementById('submitBtn');
+
+  nameEl.classList.toggle('invalid', !name);
+  detailEl.classList.toggle('invalid', !detail);
+  if(!name || !typeEl || !detail){
+    statusMsg.textContent = 'Add your name, pick a feedback type, and describe your feedback.';
+    statusMsg.className = 'status-msg err';
+    return;
+  }
+
+  btn.disabled = true;
+  statusMsg.textContent = 'Saving…';
+  statusMsg.className = 'status-msg';
+
+  const entry = {
+    name, role, page,
+    type: typeEl.value,
+    priority: prioEl ? prioEl.value : 'Medium',
+    detail, ref
+  };
+
+  try{
+    const res = await API.submit(entry);
+    statusMsg.textContent = 'Logged. Thank you — you can add another entry any time.';
+    statusMsg.className = 'status-msg';
+    // reset the parts that change per entry, keep name/role for the next one
+    detailEl.value = ''; document.getElementById('detailCount').textContent = '0';
+    document.getElementById('fRef').value = '';
+    if(typeEl){ typeEl.checked = false; }
+    document.querySelectorAll('#typeChips .chip').forEach(c => c.classList.remove('selected'));
+    document.getElementById('submissionCount').textContent = (res && typeof res.count === 'number') ? res.count : (allEntries.length + 1);
+    showToast('Feedback logged ✓');
+  }catch(e){
+    statusMsg.textContent = 'Something went wrong saving this. Please try again.';
+    statusMsg.className = 'status-msg err';
+    showToast('Could not save — try again', true);
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+/* ---------- export ---------- */
+function downloadPdf(){
+  if(allEntries.length === 0) return;
+  window.location.href = '/export.pdf';
+}
+
+function copyForDesigner(){
+  if(allEntries.length === 0) return;
+  const byPage = {};
+  allEntries.forEach(e => {
+    const key = e.page || 'Other';
+    (byPage[key] = byPage[key] || []).push(e);
+  });
+
+  let text = `FRESHMAN ACADEMY — WEBSITE REDESIGN FEEDBACK\n`;
+  text += `Compiled ${new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'long', year:'numeric'})} · ${allEntries.length} entries from the team\n`;
+  text += `${'='.repeat(60)}\n\n`;
+
+  Object.keys(byPage).sort().forEach(page => {
+    text += `${page.toUpperCase()}\n${'-'.repeat(page.length)}\n`;
+    byPage[page].forEach(e => {
+      text += `[${e.priority || 'Medium'} priority] ${e.type || 'Other'} — from ${e.name}${e.role ? ' (' + e.role + ')' : ''}\n`;
+      text += `${e.detail}\n`;
+      if(e.ref) text += `Reference: ${e.ref}\n`;
+      text += `\n`;
+    });
+    text += `\n`;
+  });
+
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Summary copied — paste it to the designer');
+  }).catch(() => {
+    showToast('Could not copy automatically', true);
+  });
+}
+
+/* ---------- toast ---------- */
+let toastTimer;
+function showToast(msg, isErr){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isErr ? ' err' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = 'toast' + (isErr ? ' err' : ''); }, 3000);
+}
+</script>
+</body>
+</html>
