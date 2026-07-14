@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: freshman-feedback
+    runtime: node
+    plan: starter          # persistent disks require a paid plan (Starter, ~$7/mo)
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+      - key: ORG_NAME
+        value: Freshman Academy
+    disk:
+      name: feedback-data
+      mountPath: /var/data  # submissions live here and survive restarts/deploys
+      sizeGB: 1
