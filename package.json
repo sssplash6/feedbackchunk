@@ -1,0 +1,17 @@
+{
+  "name": "freshman-feedback",
+  "version": "1.0.0",
+  "description": "Team feedback collector for the freshman.academy website redesign, with admin PDF export.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pdfkit": "^0.15.0"
+  }
+}
